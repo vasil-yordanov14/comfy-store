@@ -73,6 +73,17 @@ function increaseAmount(id) {
   });
   return newAmount;
 }
+function decreaseAmount(id) {
+  let newAmount;
+  cart = cart.map((cartItem) => {
+    if (cartItem.id === id) {
+      newAmount = cartItem.amount - 1;
+      cartItem = { ...cartItem, amount: newAmount };
+    }
+    return cartItem;
+  });
+  return newAmount;
+}
 function setupCartFunctionality() {
   cartItemsDOM.addEventListener(`click`, function (e) {
     const element = e.target;
@@ -85,7 +96,21 @@ function setupCartFunctionality() {
       parent.parentElement.remove();
     }
     // increase
+    if (parent.classList.contains(`cart-item-increase-btn`)) {
+      const newAmount = increaseAmount(parentID);
+      parent.nextElementSibling.textContent = newAmount;
+    }
     // decrease
+    if (parent.classList.contains(`cart-item-decrease-btn`)) {
+      const newAmount = decreaseAmount(parentID);
+      if (newAmount === 0) {
+        removeItem(parentID);
+        parent.parentElement.parentElement.remove();
+      } else {
+        element.previousElementSibling.textContent = newAmount;
+      }
+    }
+
     displayCartItemsCount();
     displayCartTotal();
     setStorageItem(`cart`, cart);
