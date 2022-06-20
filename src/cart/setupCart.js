@@ -107,7 +107,7 @@ function setupCartFunctionality() {
         removeItem(parentID);
         parent.parentElement.parentElement.remove();
       } else {
-        element.previousElementSibling.textContent = newAmount;
+        parent.previousElementSibling.textContent = newAmount;
       }
     }
 
